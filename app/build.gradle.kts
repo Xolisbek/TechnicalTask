@@ -1,18 +1,20 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android) // I added
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization) // JSON uchun
+    alias(libs.plugins.google.ksp) // Room compiler uchun
+
 }
 
 android {
     namespace = "uz.coderqwerty.technicaltask"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "uz.coderqwerty.technicaltask"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -32,12 +34,54 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    // =========== I added ===========
+    kotlinOptions {
+        // Kotlin kodlarini qaysi JVM versiyasiga moslash
+        jvmTarget = "11"
+    }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+
+// ================================== I added ==================================
+
+// Ktor
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.logging)
+
+// Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
+    ksp(libs.room.compiler) // ksp orqali generatsiya qilinadi
+
+// Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+
+// Voyager
+    implementation(libs.voyager.navigator)
+    implementation(libs.voyager.transitions)
+    implementation(libs.voyager.koin)
+
+// Paging
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
+
+// Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+
+
+// ================================== Automatic added ==================================
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
